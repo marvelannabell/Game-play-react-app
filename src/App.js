@@ -1,5 +1,8 @@
-
 import './App.css';
+
+import { useEffect,useState } from 'react';
+
+
 import { CreatePage } from './components/CreatePage/CreatePage';
 import { Header } from './components/Header/Header';
 import { Home } from './components/Home/Home';
@@ -7,9 +10,23 @@ import { Login } from './components/Login/Login';
 import { Register } from './components/Register/Register';
 import { Routes, Route } from 'react-router-dom'
 import { Catalogue } from './components/Catalogue/Catalogue';
+import { getAll } from './Services/gameServices';
 
 
 function App() {
+  const [games, setGames] = useState([]);
+  useEffect(() => {
+    getAll()
+        .then(result => {
+            setGames(result)
+            console.log(result);
+        })
+        .catch(err => {
+            console.log('error' + err);
+        })
+}, []);
+
+
   return (
 
     <div id="box">
@@ -17,11 +34,11 @@ function App() {
       {/* Main Content */}
       <main id="main-content">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home games={games}/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/create" element={<CreatePage />} />
-          <Route path="/catalogue" element={<Catalogue />} />
+          <Route path="/catalogue" element={<Catalogue games={games} />} />
 
       
       </Routes>
