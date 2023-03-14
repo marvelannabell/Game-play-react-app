@@ -1,19 +1,22 @@
-export const DetailsPAge=()=>{
+import { useParams } from "react-router-dom";
+
+export const DetailsPage=({
+  games,
+})=>{
+  const {gameId} = useParams();
+  const selsectedGame = games.find(x=>x._id === gameId)
     return(
         <section id="game-details">
         <h1>Game Details</h1>
         <div className="info-section">
           <div className="game-header">
-            <img className="game-img" src="images/MineCraft.png" />
-            <h1>Bright</h1>
-            <span className="levels">MaxLevel: 4</span>
-            <p className="type">Action, Crime, Fantasy</p>
+            <img className="game-img" src={selsectedGame.imageUrl} />
+            <h1>{selsectedGame.title}</h1>
+            <span className="levels">MaxLevel: {selsectedGame.maxLevel}</span>
+            <p className="type">{selsectedGame.category}</p>
           </div>
           <p className="text">
-            Set in a world where fantasy creatures live side by side with humans. A human cop is forced to work
-            with an Orc to find a weapon everyone is prepared to kill for. Set in a world where fantasy
-            creatures live side by side with humans. A human cop is forced
-            to work with an Orc to find a weapon everyone is prepared to kill for.
+          {selsectedGame.summary}
           </p>
           {/* Bonus ( for Guests and Users ) */}
           <div className="details-comments">

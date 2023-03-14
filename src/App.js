@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 import { CreatePage } from './components/CreatePage/CreatePage';
@@ -11,20 +11,29 @@ import { Register } from './components/Register/Register';
 import { Routes, Route } from 'react-router-dom'
 import { Catalogue } from './components/Catalogue/Catalogue';
 import { getAll } from './Services/gameServices';
+import { DetailsPage } from './components/DetailsPage/DetailsPage';
 
 
 function App() {
-  const [games, setGames] = useState([]);
-  useEffect(() => {
-    getAll()
+  const games = useGames()
+
+
+  function useGames() {
+
+    const [games, setGames] = useState([]);
+    useEffect(() => {
+      getAll()
         .then(result => {
-            setGames(result)
-            console.log(result);
+          setGames(result)
+          console.log(result);
         })
         .catch(err => {
-            console.log('error' + err);
+          console.log('error' + err);
         })
-}, []);
+    }, []);
+    
+    return games;
+  }
 
 
   return (
@@ -34,14 +43,15 @@ function App() {
       {/* Main Content */}
       <main id="main-content">
         <Routes>
-          <Route path="/" element={<Home games={games}/>} />
+          <Route path="/" element={<Home games={games} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/create" element={<CreatePage />} />
           <Route path="/catalogue" element={<Catalogue games={games} />} />
+          <Route path="/catalogue/:gameId" element={<DetailsPage games={games} />} />
 
-      
-      </Routes>
+
+        </Routes>
         {/*Home Page*/}
 
       </main>
