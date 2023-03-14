@@ -13,27 +13,27 @@ import { Catalogue } from './components/Catalogue/Catalogue';
 import { getAll } from './Services/gameServices';
 import { DetailsPage } from './components/DetailsPage/DetailsPage';
 
+function useGames() {
+
+  const [games, setGames] = useState([]);
+  useEffect(() => {
+    getAll()
+      .then(result => {
+        setGames(result)
+        console.log(result);
+      })
+      .catch(err => {
+        console.log('error' + err);
+      })
+  }, []);
+
+  return games;
+}
+
 
 function App() {
   const games = useGames()
 
-
-  function useGames() {
-
-    const [games, setGames] = useState([]);
-    useEffect(() => {
-      getAll()
-        .then(result => {
-          setGames(result)
-          console.log(result);
-        })
-        .catch(err => {
-          console.log('error' + err);
-        })
-    }, []);
-    
-    return games;
-  }
 
 
   return (
